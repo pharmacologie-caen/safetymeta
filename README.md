@@ -6,6 +6,7 @@
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/pharmacologie-caen/safetymeta/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/pharmacologie-caen/safetymeta/actions/workflows/R-CMD-check.yaml)
+[![codecov](https://codecov.io/gh/pharmacologie-caen/safetymeta/graph/badge.svg?token=5BCy4WfqJa)](https://codecov.io/gh/pharmacologie-caen/safetymeta)
 <!-- badges: end -->
 
 The goal of safetymeta is to help manage adverse events aggregated
