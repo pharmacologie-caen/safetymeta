@@ -16,4 +16,277 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(safetymeta)
+library(dplyr)
 ```
+
+# Purpose
+
+To help manage adverse events aggregated datasets in order to perform
+a safety meta-analysis.
+
+## Pre-requisites
+
+Users are assumed to be familiar with
+
+-    The principles of meta-analysis.
+
+-    R (basic knowledge, a good start can be found [here](https://r4ds.hadley.nz/)).
+
+-    The [PRISMA guidelines](https://www.prisma-statement.org/).
+
+## What the package does not cover
+
+-    Safety meta-analysis of individual patient level data.
+
+## Overview
+
+In this package, you will find steps to manage adverse events datasets,
+avoiding common pitfalls in order to provide accurate, reproducible workflows
+when conducting a safety meta-analysis.
+
+# Usage
+
+## Gather safety data from different sources
+
+According to PRISMA Guidelines, events identification required to screen
+all potential sources of information. This includes direct contact to the authors,
+published data from original manuscript, its supplementary data, potential follow-up studies,
+and clinical trial registration websites, among others.
+
+Not all sources will provide data for each study, and not all sources will
+provide the **same** data for each study. A choice is required in the latter case,
+in order to retain the most relevant source.
+
+When we have to choose a preferred source, several considerations may come into mind:
+
+-   How reliable is the source? Which source should be trusted the most?
+
+If there was a straightforward answer to this question, there would be no other 
+discussion, and sources would be prioritized according to truthfulness.
+It happens to be a not so trivial question, as no guidelines establish a
+hierarchical order among sources. Arguably, not all sources would be as valuable
+for all research questions as well.
+
+Other, more simple features, can also help:
+
+-   Which source reports on the highest number of patients?
+
+-   Which source has the highest number of events?
+
+-   Which source has the longest follow-up?
+
+The process of sorting sources is topic-dependent and likely meta-analysis-dependent,
+which means sorting would not be identical for 2 different meta-analyses.
+
+More importantly, authors should be aware that such sorting is required before
+processing data. A dedicated time should be spend to determine the most
+appropriate order.
+
+Here is an example, with two different data sources
+
+```{r data_sources}
+
+e_data_src1
+
+e_data_src2
+```
+As we can see, study with id "NCT2" is present in both sources. The same
+event "eczema" is reported in both, but the number of patients presenting
+this event (column `n_event_arm1`) is different: 10 patients in src1, vs 9 in src2
+
+Also, sometime, src2 is the only source to provide data, such as for study "NCT3".
+
+With source sorting, data are regarded step by step:
+
+-    Does no 1 source has data? If yes, use this source for this event
+
+-    If no 2 source doesn't provide data for this event, does no 2 source do? If yes, use no 2.
+
+-    Etc.
+
+This also implies that if you study different events, you will not always
+use the same source.
+
+### Sort sources by yourself
+
+If it has been decided which source should be prioritize, you can give this data
+to the `sort_sources()` function.
+
+```{r source_order}
+
+e_data <- 
+  bind_rows(
+    e_data_src1,
+    e_data_src2
+    )
+
+source_order <- 
+  c("src1", "src2")
+
+```
+
+The `sort_sources()` function will take a `source_list_order` argument, which tells us
+the priority among sources. The first item is the source with the highest priority,
+the second element is the next highest priority, and so on.
+
+```{r sort_sources}
+e_data_source <-
+  e_data |> 
+  sort_sources(
+    method = "source_list",
+    source_name = "source",
+    source_list_order = source_order
+  )
+```
+
+All the function does is adding an integer column "src" to the initial dataset.
+
+This will be helpful for the next step, gathering safety data.
+
+## Gather events into terms
+
+Once sources have been sorted, events can be gathered.
+
+A same medical condition can sometime be defined by several names.
+
+Here, we use the word `term` to refer to a medical condition that can have several
+names. Those different names are called `events`.
+
+-    An "event" dataset contains one row per reaction, with counts of events per arm,
+n per arm, and a study_id column (see example).
+
+-    A "term" is a combination of one or more "events" (can be from an SMQ,
+ an HLT, any combination of PT in MedDRA, ...).
+ 
+ Lets take the medical condition "myocardial infarction". You could say the patient
+ had myocardial infarction if a study reports on myocardial infarction, but also 
+ on Sustained ST-elevation myocardial infarction, or acute coronary syndrome.
+ All these *events* can define the *term* "myocardial infarction".
+ In different studies (or in different centers in the same study), the term maybe
+ reported with one of these events interchangeably. Or some patients could be
+ reported as one event, and others as another.
+ 
+ To capture all these events, setting-up a dictionary of terms is required.
+ 
+```{r t_groups_mi}
+t_groups <- 
+  list(myocardial_infarction = 
+         c("myocardial infarction",
+           "sustained st-elevation myocardial infarction",
+           "acute coronary syndrome")
+  )
+
+t_groups
+```
+We now have a named list, containing one element. This element is named after the
+**term** myocardial infarction, and gathers all possible **events**.
+ 
+We can use the `group_events()` function to reorganize our dataset
+from events to terms.
+
+```{r group_events_basic}
+
+e_data_source |> 
+  group_events(
+    t_groups = t_groups,
+    n_event = "n_event_arm1",
+    n_arm = "n_arm1",
+    event_name = "event_name",
+    study_id = "study_id"
+  )
+
+```
+
+Two interesting behaviors here:
+
+### The e_data dataset has been turned into a **term**-level dataset.
+
+Counts in n_event_arm1 have changed: instead of two lines for study NCT1, with
+1 and 2 events in myocardial infarction and acute coronary syndrome, we now have
+only one line, with 2 events.
+
+This is the default behavior of the function, with method named "conservative".
+
+The idea is that since events are reported as grouped counts, it is now always
+possible to say if patient with a first event (e.g. myocardial infarction) did 
+not also presented a second event (e.g. acute coronary syndrome).
+
+In some special cases, you might want to sum up those counts. That's particularly
+true if when working with rare events, or if you join events that should not
+(in principle) overlap one with each other. For all those cases, the "integrative"
+method will perform a sum.
+
+```{r group_events_integrative}
+
+e_data_source |> 
+  group_events(
+    t_groups = t_groups,
+    n_event = "n_event_arm1",
+    n_arm = "n_arm1",
+    event_name = "event_name",
+    study_id = "study_id",
+    method = "integrative"
+  )
+
+```
+For NCT1, there are now 3 events in arm 1.
+
+### Data from most relevant source has been retained
+
+Lets capture another term
+
+```{r t_groups_skin}
+t_groups <- 
+  list(skin = 
+         c("eczema",
+           "pruritus")
+  )
+
+e_data_source |> 
+  group_events(
+    t_groups = t_groups,
+    n_event = "n_event_arm1",
+    n_arm = "n_arm1",
+    event_name = "event_name",
+    study_id = "study_id"
+  )
+```
+
+In study NCT2, eczema was reported from 2 different sources (src1, and src2).
+
+Since those sources were prioritized with `sort_sources()`, `group_events()` will only
+keep data from src1.
+
+Of important note, source filtering in `group_events()` is at term level.
+
+```{r ge_ss_term_level}
+# load data t_groups, with the 2 previous groups
+data(t_groups)
+
+ e_s <-
+    data.frame(
+      study_id = c("NCT1", "NCT1"),
+      event_name = c("myocardial infarction",
+                     "eczema"),
+      src = c(1, 2),
+      n_event_arm1 = c(2, 15),
+      n_arm1 = c(20, 20)
+    )
+
+e_s |>
+    group_events(
+      t_groups = t_groups,
+      n_event = "n_event_arm1",
+      n_arm = "n_arm1",
+      event_name = "event_name",
+      study_id = "study_id"
+    )
+
+
+```
+
+In this new example, there is only one study, two events reported from two sources.
+
+Since these events are identified each in one term from t_groups, and each from 
+the source with the highest priority (source 1 for term "myocardial_infarction",
+source 2 for term "skin"), there are both retained.
