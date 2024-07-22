@@ -438,3 +438,34 @@ test_that("you can work without n_arms", {
 
   expect_equal(t_data, true_t_data)
 })
+
+test_that("study_id cannot be missing", {
+  source_order <- c("src1", "src2")
+
+    expect_error({
+      e_data |>
+        sort_sources(
+          method = c("source_list"),
+          source_name = "source",
+          source_list_order = source_order
+        ) |>
+        dplyr::mutate(
+          stud_id_error =
+            ifelse(
+              study_id == "NCT1",
+              NA_character_,
+              study_id
+            )
+        ) |>
+        group_events(
+          t_groups = t_groups,
+          n_event = "n_event_arm1",
+          n_arm     = "n_arm1",
+          event_name = "event_name",
+          study_id   = "stud_id_error",
+          method = "conservative"
+        )},
+      "missing values are not allowed in study_id (stud_id_error)",
+      fixed = TRUE
+    )
+})

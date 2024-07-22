@@ -106,7 +106,6 @@ group_events <-
       stop("n_event should be the same length as n_arm.")
     }
 
-
     # renamers ---- ####
 
     renamer_event <-
@@ -204,7 +203,16 @@ group_events <-
 
     }
 
-    # c.3 check n___arms are unique per s___id and src ---- ####
+
+    # c.3 study_id cannot be missing ---- ####
+
+    if(any(is.na(.data$s___id))){
+      stop(paste0("missing values are not allowed in study_id (",
+                  study_id,
+                  ")"))
+    }
+
+    # c.4 check n___arms are unique per s___id and src ---- ####
 
     d1 <-
       .data |>
@@ -315,7 +323,7 @@ group_events <-
       ) |>
       purrr::list_rbind()
 
-    # c.4 integrative approach incompatibility ---- ####
+    # c.5 integrative approach incompatibility ---- ####
 
     if(!is.null(n_arm) && method == "integrative"){
       incompatibility <-
