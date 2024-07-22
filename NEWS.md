@@ -1,5 +1,9 @@
 # safetymeta 0.1.1
 
+## Patchs
+
+Fixing documentation, syncing with codecov, and readme.
+
 # safetymeta 0.1.0
 
 # v0.1.0

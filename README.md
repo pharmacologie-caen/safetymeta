@@ -11,6 +11,9 @@
 The goal of safetymeta is to help manage adverse events aggregated
 datasets in order to perform a safety meta-analysis.
 
+> Visit the [package
+> website](https://pharmacologie-caen.github.io/safetymeta/)
+
 ## Installation
 
 You can install the development version of safetymeta from
@@ -83,6 +86,9 @@ e_data_source |>
 #> 4     2 NCT3     skin                            20     50 pruritus (20)
 ```
 
-## Vignettes
+## Website, vignettes
 
-Look at the “basic_workflow” article for more details.
+The best place to browse the package documentation is [the
+website](https://pharmacologie-caen.github.io/safetymeta/)
+
+You can also look at the “basic_workflow” vignette.
