@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="index.html">safetymeta</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,7 +54,87 @@
   <main id="main" class="col-md-9"><div class="section level1">
 <div class="page-header"><h1 id="safetymeta">safetymeta<a class="anchor" aria-label="anchor" href="#safetymeta"></a>
 </h1></div>
+<!-- badges: start -->
+
+<p>The goal of safetymeta is to help manage adverse events aggregated datasets in order to perform a safety meta-analysis.</p>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<p>You can install the development version of safetymeta from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"pharmacologie-caen/safetymeta"</span><span class="op">)</span></span></code></pre></div>
 </div>
+<div class="section level2">
+<h2 id="pre-requisites">Pre-requisites<a class="anchor" aria-label="anchor" href="#pre-requisites"></a>
+</h2>
+<p>Users are assumed to be familiar with</p>
+<ul>
+<li><p>The principles of meta-analysis.</p></li>
+<li><p>R (basic knowledge, a good start can be found <a href="https://r4ds.hadley.nz/" class="external-link">here</a>).</p></li>
+<li><p>The <a href="https://www.prisma-statement.org/" class="external-link">PRISMA guidelines</a>.</p></li>
+</ul>
+</div>
+<div class="section level2">
+<h2 id="what-the-package-does-not-cover">What the package does not cover<a class="anchor" aria-label="anchor" href="#what-the-package-does-not-cover"></a>
+</h2>
+<ul>
+<li>Safety meta-analysis of individual patient level data.</li>
+</ul>
+</div>
+<div class="section level2">
+<h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
+</h2>
+<p>In this package, you will find steps to manage adverse events datasets, avoiding common pitfalls in order to provide accurate, reproducible workflows when conducting a safety meta-analysis.</p>
+</div>
+</div>
+<div class="section level1">
+<h1 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
+</h1>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://pharmacologie-caen.github.io/safetymeta/">safetymeta</a></span><span class="op">)</span></span></code></pre></div>
+<div class="section level2">
+<h2 id="define-priority-among-safety-data-sources">Define priority among safety data sources<a class="anchor" aria-label="anchor" href="#define-priority-among-safety-data-sources"></a>
+</h2>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">source_order</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"src1"</span>, <span class="st">"src2"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">e_data_source</span> <span class="op">&lt;-</span></span>
+<span>  <span class="va">e_data</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="reference/sort_sources.html">sort_sources</a></span><span class="op">(</span></span>
+<span>    method <span class="op">=</span> <span class="st">"source_list"</span>,</span>
+<span>    source_name <span class="op">=</span> <span class="st">"source"</span>,</span>
+<span>    source_list_order <span class="op">=</span> <span class="va">source_order</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="group-events-into-terms">Group events into terms<a class="anchor" aria-label="anchor" href="#group-events-into-terms"></a>
+</h2>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">e_data_source</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="reference/group_events.html">group_events</a></span><span class="op">(</span></span>
+<span>    t_groups <span class="op">=</span> <span class="va">t_groups</span>,</span>
+<span>    n_event <span class="op">=</span> <span class="st">"n_event_arm1"</span>,</span>
+<span>    n_arm <span class="op">=</span> <span class="st">"n_arm1"</span>,</span>
+<span>    event_name <span class="op">=</span> <span class="st">"event_name"</span>,</span>
+<span>    study_id <span class="op">=</span> <span class="st">"study_id"</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 4 × 6</span></span>
+<span><span class="co">#&gt;     src study_id term_name             n_event_arm1 n_arm1 details_n_event_arm1 </span></span>
+<span><span class="co">#&gt;   &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;                        &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;                </span></span>
+<span><span class="co">#&gt; 1     1 NCT1     myocardial_infarction            2     20 myocardial infarctio…</span></span>
+<span><span class="co">#&gt; 2     1 NCT2     myocardial_infarction            5     27 myocardial infarctio…</span></span>
+<span><span class="co">#&gt; 3     1 NCT2     skin                            10     27 eczema (10)          </span></span>
+<span><span class="co">#&gt; 4     2 NCT3     skin                            20     50 pruritus (20)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="vignettes">Vignettes<a class="anchor" aria-label="anchor" href="#vignettes"></a>
+</h2>
+<p>Look at the “basic_workflow” article for more details.</p>
+</div>
+</div>
+
   </main><aside class="col-md-3"><div class="license">
 <h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
@@ -78,7 +158,12 @@
 </ul>
 </div>
 
-
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://github.com/pharmacologie-caen/safetymeta/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/pharmacologie-caen/safetymeta/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
+</ul>
+</div>
 
   </aside>
 </div>
