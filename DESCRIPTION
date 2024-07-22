@@ -1,9 +1,12 @@
 Package: safetymeta
 Title: Conduct safety meta-analysis of study-level data
 Version: 0.1.1
-Authors@R: 
-    person("Charles", "Dolladille", , "cdolladille@hotmail.com", role = c("aut", "cre"),
-           comment = c(ORCID = "0000-0003-0449-6261"))
+Authors@R: c(
+       person("Charles", "Dolladille", email = "cdolladille@hotmail.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0003-0449-6261")),
+       person("INSERM U1086 ANTICIPE", role = c("cph"), comment = "Universite de Caen Normandie, Caen, France"),
+       person("Unite de pharmaco-epidemiologie", role = c("cph") , comment = "Service de pharmacologie, Centre Hospitalier Universitaire de Caen, Caen, France")
+       )
 Description: Guidance through data management steps of safety events, obtained from different sources (manuscripts, clinical trial registration platforms), grouping into safety terms.
 License: CC BY 4.0
 Encoding: UTF-8

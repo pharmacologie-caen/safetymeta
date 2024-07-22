@@ -18,5 +18,11 @@ Useful links:
 \author{
 \strong{Maintainer}: Charles Dolladille \email{cdolladille@hotmail.com} (\href{https://orcid.org/0000-0003-0449-6261}{ORCID})
 
+Other contributors:
+\itemize{
+  \item INSERM U1086 ANTICIPE (Universite de Caen Normandie, Caen, France) [copyright holder]
+  \item Unite de pharmaco-epidemiologie (Service de pharmacologie, Centre Hospitalier Universitaire de Caen, Caen, France) [copyright holder]
+}
+
 }
 \keyword{internal}
