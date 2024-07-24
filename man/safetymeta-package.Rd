@@ -18,6 +18,11 @@ Useful links:
 \author{
 \strong{Maintainer}: Charles Dolladille \email{cdolladille@hotmail.com} (\href{https://orcid.org/0000-0003-0449-6261}{ORCID})
 
+Authors:
+\itemize{
+  \item Pierre-Marie Morice (\href{https://orcid.org/0000-0002-9313-2701}{ORCID})
+}
+
 Other contributors:
 \itemize{
   \item INSERM U1086 ANTICIPE (Universite de Caen Normandie, Caen, France) [copyright holder]
