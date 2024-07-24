@@ -1,3 +1,10 @@
+# safetymeta 0.2.0
+
+## New features
+
+Experimental add of `table_mod_summary()`, to collect data from a meta model,
+created with package `meta`.
+
 # safetymeta 0.1.1
 
 ## Patchs
@@ -13,7 +20,7 @@ brand new package. Hope to deliver a very basic set of functions soon.
 
 ## New features
 
-Add `sort_sources` and `group_events` functions as the very foundation of the
+Add `sort_sources()` and `group_events()` functions as the very foundation of the
 package. The fundamental vignette is basic workflow.
 Hope the website will print nicely, as well as many other features (licence, cmd
 check...)

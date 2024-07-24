@@ -2,6 +2,7 @@
 
 export(group_events)
 export(sort_sources)
+export(table_mod_summary)
 import(rlang)
 importFrom(glue,glue)
 importFrom(lifecycle,deprecated)

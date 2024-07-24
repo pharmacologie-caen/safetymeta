@@ -1,0 +1,83 @@
+---
+title: "collect_data"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{collect_data}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(safetymeta)
+library(meta)
+```
+
+Once safety meta-analysis has been performed, it is natural to collect numerical
+results on the model(s).
+
+Although not specific of safety meta-analysis, the package provides the 
+`table_mod_summary` function to table those summary results.
+
+This is especially useful when there are multiple models, e.g, when studying
+more than one event, or performing subgroup analyses.
+
+```{r tms_onemod}
+data <-
+    data.frame(
+      event_a = 4:1,
+      event_b = 1:4,
+      n = c(5, 7, 8, 9),
+      byvar = c("a", "a", "b", "b")
+    )
+
+ m_a <- metaprop(
+    event = event_a,
+    n = n,
+    byvar = byvar,
+    data = data
+  )
+ 
+ 
+
+table_mod_summary(m_a)
+
+
+```
+If studying two events, use a named list of models
+
+```{r tms_twoevents}
+
+m_b <- metaprop(
+    event = event_b,
+    n = n,
+    byvar = byvar,
+    data = data
+  )
+
+
+table_mod_summary(
+     list(mod_a = m_a,
+          mod_b = m_b)
+   )
+```
+Notice that the `names` of the model `list` are collected into the `mod_name`
+column. Providing enough data in these names makes it easy to track the results
+in subsequent data management steps.
+
+If studying subgroups, use argument `main_or_sbgp`.
+
+```{r tms_sbgp}
+
+m_a |> 
+  table_mod_summary(
+    main_or_sbgp = "sbgp"
+  )
+```
+> For `meta::metaprop` models, `table_mod_summary` only works if `sm="PLOGIT"`
