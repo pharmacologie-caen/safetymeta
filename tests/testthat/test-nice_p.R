@@ -34,3 +34,25 @@ test_that("arg print_zero works", {
   )
 
 })
+
+test_that("message for NULL result", {
+
+  expect_snapshot(
+    nice_p(NULL)
+  )
+
+})
+
+test_that("arg print_zero works", {
+
+  expect_equal(
+    nice_p(0.056548),
+    ".06"
+  )
+
+  expect_equal(
+    nice_p(0.056548, print_zero = TRUE),
+    "0.06"
+  )
+
+})
