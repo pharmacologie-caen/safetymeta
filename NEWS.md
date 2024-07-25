@@ -1,3 +1,9 @@
+# safetymeta 0.2.1
+
+## Patch
+
+Codecov to 100%, add a test to internal `nice_p()` function
+
 # safetymeta 0.2.0
 
 ## New features
