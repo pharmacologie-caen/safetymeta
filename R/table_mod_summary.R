@@ -137,10 +137,10 @@ table_mod_summary <- function(
              ),
              method_sm_effects = paste0(method, " ", sm, " ", common_or_random),
              `p`          = nice_p(!!pval.sym),
-             TE.random    = exp(!!TE.sym),
-             lower.random = exp(!!lower.sym),
-             upper.random = exp(!!upper.sym),
-             pval.random,
+             TE           = exp(!!TE.sym),
+             lower        = exp(!!lower.sym),
+             upper        = exp(!!upper.sym),
+             !!pval.sym,
              k,
              I2
            )
@@ -192,9 +192,9 @@ table_mod_summary <- function(
                    method_sm_effects = paste0(method, " ", sm, " ", common_or_random),
                    `p` = nice_p(!!pval.Q.b.sym),
 
-                   TE.random = exp(!!TE.sym.w),
-                   lower.random = exp(!!lower.sym.w),
-                   upper.random = exp(!!upper.sym.w),
+                   TE    = exp(!!TE.sym.w),
+                   lower = exp(!!lower.sym.w),
+                   upper = exp(!!upper.sym.w),
                    !!pval.Q.b.sym,
                    k.w,
                    I2.w
@@ -233,9 +233,9 @@ table_mod_summary <- function(
                                ),
                              per = paste0(prop_scaler, " pts"),
                              method_sm_effects = paste0(method, " ", sm, " ", common_or_random),
-                             TE.random    = plogis(!!TE.sym),
-                             lower.random = plogis(!!lower.sym),
-                             upper.random = plogis(!!upper.sym),
+                             TE    = plogis(!!TE.sym),
+                             lower = plogis(!!lower.sym),
+                             upper = plogis(!!upper.sym),
                              k,
                              I2
                            )
@@ -265,10 +265,10 @@ table_mod_summary <- function(
                                per = paste0(prop_scaler, " pts"),
 
                                method_sm_effects = paste0(method, " ", sm, " ", common_or_random),
-                               `p` = nice_p(!!pval.Q.b.sym),
-                               TE.random    = plogis(!!TE.sym.w),
-                               lower.random = plogis(!!lower.sym.w),
-                               upper.random = plogis(!!upper.sym.w),
+                               `p`   = nice_p(!!pval.Q.b.sym),
+                               TE    = plogis(!!TE.sym.w),
+                               lower = plogis(!!lower.sym.w),
+                               upper = plogis(!!upper.sym.w),
                                !!pval.Q.b.sym,
                                k.w,
                                I2.w
@@ -310,9 +310,9 @@ table_mod_summary <- function(
                                  ),
                                per = paste0(prop_scaler, " pts"),
                                method_sm_effects = paste0(method, " ", sm, " ", common_or_random),
-                               TE.random = exp(!!TE.sym),
-                               lower.random = exp(!!lower.sym),
-                               upper.random = exp(!!upper.sym),
+                               TE    = exp(!!TE.sym),
+                               lower = exp(!!lower.sym),
+                               upper = exp(!!upper.sym),
                                k,
                                I2
                              )
@@ -353,10 +353,10 @@ table_mod_summary <- function(
                                  per = paste0(prop_scaler, " pts"),
 
                                  method_sm_effects = paste0(method, " ", sm, " ", common_or_random),
-                                 `p` = nice_p(!!pval.Q.b.sym),
-                                 TE.random    = exp(!!TE.sym.w),
-                                 lower.random = exp(!!lower.sym.w),
-                                 upper.random = exp(!!upper.sym.w),
+                                 `p`   = nice_p(!!pval.Q.b.sym),
+                                 TE    = exp(!!TE.sym.w),
+                                 lower = exp(!!lower.sym.w),
+                                 upper = exp(!!upper.sym.w),
                                  !!pval.Q.b.sym,
                                  k.w,
                                  I2.w

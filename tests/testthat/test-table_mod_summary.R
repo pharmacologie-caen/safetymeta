@@ -435,3 +435,66 @@ test_that("models with different subgroups and main_or_sbgp is main is warning",
     "Did you intend to collect subgroups results, with main_or_sbgp = 'sbgp'?"
   )
 })
+
+test_that("you can extract common or random summaries", {
+  m1 <-
+    tnsc_data |>
+    dplyr::filter(term_name == "myocardial_infarction") |>
+    metabin_wrap(
+      event_colnames = c("event_e", "event_c"),
+      n_colnames = c("n_e", "n_c"),
+      by_var = c("byvar1"),
+      stud_lab = "study_id"
+    )
+
+  m_rate <-
+    meta::metarate(
+      event = event_e,
+      time = n_e,
+      data = tnsc_data,
+      byvar = byvar1
+    )
+
+  m_prop <-
+    meta::metaprop(
+      event = event_e,
+      n = n_e,
+      data= tnsc_data,
+      byvar = byvar1
+    )
+
+  # names
+  for (m_ in list(m_rate, m_prop, m1)) {
+    for (an_ in c("sbgp", "main")) {
+      res_common <-
+        table_mod_summary(
+          mod_list = m_,
+          main_or_sbgp = an_,
+          common_or_random = "common"
+        )
+
+      res_random <-
+        table_mod_summary(
+          mod_list = m_,
+          main_or_sbgp = an_,
+          common_or_random = "random"
+        )
+
+      expect_false(any(grepl("common", names(res_random))))
+
+      expect_false(any(grepl("random", names(res_common))))
+    }
+  }
+
+  # values
+  # last model from for loop is metabin, main outcome
+  expect_false(
+    res_common$pval.common ==
+      res_random$pval.random
+  )
+
+  expect_false(
+    res_common$`sm (95%CI)` ==
+      res_random$`sm (95%CI)`
+  )
+})

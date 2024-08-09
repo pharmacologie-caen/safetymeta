@@ -16,7 +16,7 @@
 #' @param stud_lab Character string, id col for each study
 #' @param ... Additional arguments to be passed to metabin (method, sm...).
 #'
-#' @return meta::metabin models, with very slight difference (subset and call parameters).
+#' @return meta::metabin models, with very slight differences (subset and call parameters).
 #' @export
 #'
 #' @examples
