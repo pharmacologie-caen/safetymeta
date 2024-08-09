@@ -18,6 +18,8 @@
 #' \itemize{
 #'   \item `t_groups`    A named list. Names are the terms, contents are the
 #'   events composing the term.
+#'   \item `tnsc_data`   term-level dataset, also joined with some study
+#'   characteristics (subgroups).
 #' }
 #'
 #' @docType data
@@ -53,3 +55,7 @@
 #' @rdname e_data
 
 "s_data"
+
+#' @rdname e_data
+
+"tnsc_data"

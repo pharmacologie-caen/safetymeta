@@ -35,7 +35,7 @@
 #'    table_mod_summary(
 #'      list(mod1 = m1)
 #'    )
-
+#
 
 table_mod_summary <- function(
     mod_list,

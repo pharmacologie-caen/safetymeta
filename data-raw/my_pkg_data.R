@@ -69,6 +69,20 @@ t_groups <-
            "acute coronary syndrome"),
        skin = c("eczema", "pruritus"))
 
+# term name and study characteristics data
+
+tnsc_data <-
+    data.frame(
+    study_id = c("NCT1", "NCT1", "NCT2", "NCT3"),
+    term_name = c("myocardial_infarction", "myocardial_infarction", "skin", "skin"),
+    byvar1 = c("a", "b", "a", "b"),
+    byvar2 = c("a", "a", "a", "b"),
+    event_e = c(3, 5, 10, 20),
+    n_e = c(20, 27, 27, 50),
+    event_c = c(1, 2, 12, 19),
+    n_c = c(21, 28, 29, 51)
+  )
+
 
 # exporting to .rda files
 
@@ -77,3 +91,4 @@ usethis::use_data(e_data_src1      , compress = "xz", overwrite = TRUE)
 usethis::use_data(e_data_src2      , compress = "xz", overwrite = TRUE)
 usethis::use_data(e_data           , compress = "xz", overwrite = TRUE)
 usethis::use_data(t_groups         , compress = "xz", overwrite = TRUE)
+usethis::use_data(tnsc_data        , compress = "xz", overwrite = TRUE)

@@ -1,0 +1,41 @@
+---
+title: "subgroups"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{subgroups}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(safetymeta)
+library(meta)
+```
+
+You can perform subgroup analyses in meta. It is very common to have more than
+one subgroup analysis to run.
+
+The `metabin_wrap` function is a very simple wrapper around meta::metabin
+to perform all subgroup analyses at once.
+
+```{r tms_onemod}
+tnsc_data |>
+  dplyr::filter(term_name == "myocardial_infarction") |>
+  metabin_wrap(
+    event_colnames = c("event_e", "event_c"),
+    n_colnames = c("n_e", "n_c"),
+    by_var = c("byvar1", "byvar2"),
+    stud_lab = "study_id"
+  )
+```
+
+The output is a named list, each element being a meta::metabin model.
+
+This list can easily be passed to `table_mod_summary` to `vignette("collect data")`.
