@@ -1,3 +1,10 @@
+# safetymeta 0.3.1
+
+## Patch
+
+`table_mod_summary()` now appropriately return common or random summaries, as
+desired.
+
 # safetymeta 0.3.0
 
 ## New features

@@ -27,7 +27,7 @@ metabin_wrap(
 \item{...}{Additional arguments to be passed to metabin (method, sm...).}
 }
 \value{
-meta::metabin models, with very slight difference (subset and call parameters).
+meta::metabin models, with very slight differences (subset and call parameters).
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}} Compute a meta analysis of binary events,
