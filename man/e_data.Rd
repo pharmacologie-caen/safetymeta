@@ -7,6 +7,7 @@
 \alias{e_data_src2}
 \alias{t_groups}
 \alias{s_data}
+\alias{tnsc_data}
 \title{Data of safety meta-analysis.}
 \format{
 An object of class \code{data.frame}.
@@ -18,6 +19,8 @@ An object of class \code{data.frame} with 3 rows and 5 columns.
 An object of class \code{list} of length 2.
 
 An object of class \code{data.frame} with 3 rows and 4 columns.
+
+An object of class \code{data.frame} with 4 rows and 8 columns.
 }
 \source{
 None
@@ -32,6 +35,8 @@ e_data_src2
 t_groups
 
 s_data
+
+tnsc_data
 }
 \description{
 Safety meta-analysis of aggregated datasets rely on 2 major compounds:
@@ -52,6 +57,8 @@ The term-level data begin with \strong{\code{t_}}.
 \itemize{
 \item \code{t_groups}    A named list. Names are the terms, contents are the
 events composing the term.
+\item \code{tnsc_data}   term-level dataset, also joined with some study
+characteristics (subgroups).
 }
 }
 \examples{

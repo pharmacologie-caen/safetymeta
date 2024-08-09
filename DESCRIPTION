@@ -19,11 +19,11 @@ Imports:
     dplyr,
     glue,
     lifecycle,
+    meta,
     purrr,
     rlang
 Suggests: 
     knitr,
-    meta,
     rmarkdown,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3

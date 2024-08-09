@@ -23,7 +23,7 @@ Once safety meta-analysis has been performed, it is natural to collect numerical
 results on the model(s).
 
 Although not specific of safety meta-analysis, the package provides the 
-`table_mod_summary` function to table those summary results.
+`table_mod_summary()` function to table those summary results.
 
 This is especially useful when there are multiple models, e.g, when studying
 more than one event, or performing subgroup analyses.
@@ -80,4 +80,25 @@ m_a |>
     main_or_sbgp = "sbgp"
   )
 ```
-> For `meta::metaprop` models, `table_mod_summary` only works if `sm="PLOGIT"`
+> For `meta::metaprop` models, `table_mod_summary()` only works if `sm="PLOGIT"`
+
+## Multiple subgroups
+
+You can combine `metabin_wrap()` to `table_mod_summary()`
+
+```{r sbgp}
+
+tnsc_data |>
+  dplyr::filter(term_name == "myocardial_infarction") |>
+  metabin_wrap(
+    event_colnames = c("event_e", "event_c"),
+    n_colnames = c("n_e", "n_c"),
+    by_var = c("byvar1", "byvar2"),
+    stud_lab = "study_id"
+  ) |> 
+   table_mod_summary(
+    main_or_sbgp = "sbgp"
+  )
+
+```
+
