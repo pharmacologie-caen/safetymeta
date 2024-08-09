@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">safetymeta</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -35,6 +35,7 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="../articles/basic_workflow.html">basic_workflow</a></li>
     <li><a class="dropdown-item" href="../articles/collect_data.html">collect_data</a></li>
+    <li><a class="dropdown-item" href="../articles/subgroups.html">subgroups</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -76,7 +77,7 @@
 <p>Once safety meta-analysis has been performed, it is natural to
 collect numerical results on the model(s).</p>
 <p>Although not specific of safety meta-analysis, the package provides
-the <code>table_mod_summary</code> function to table those summary
+the <code><a href="../reference/table_mod_summary.html">table_mod_summary()</a></code> function to table those summary
 results.</p>
 <p>This is especially useful when there are multiple models, e.g, when
 studying more than one event, or performing subgroup analyses.</p>
@@ -146,9 +147,40 @@ management steps.</p>
 <span><span class="co">#&gt; b   2 0.0000000</span></span></code></pre></div>
 <blockquote>
 <p>For <code><a href="https://rdrr.io/pkg/meta/man/metaprop.html" class="external-link">meta::metaprop</a></code> models,
-<code>table_mod_summary</code> only works if
+<code><a href="../reference/table_mod_summary.html">table_mod_summary()</a></code> only works if
 <code>sm="PLOGIT"</code></p>
 </blockquote>
+<div class="section level2">
+<h2 id="multiple-subgroups">Multiple subgroups<a class="anchor" aria-label="anchor" href="#multiple-subgroups"></a>
+</h2>
+<p>You can combine <code><a href="../reference/metabin_wrap.html">metabin_wrap()</a></code> to
+<code><a href="../reference/table_mod_summary.html">table_mod_summary()</a></code></p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="va">tnsc_data</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">term_name</span> <span class="op">==</span> <span class="st">"myocardial_infarction"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/metabin_wrap.html">metabin_wrap</a></span><span class="op">(</span></span>
+<span>    event_colnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"event_e"</span>, <span class="st">"event_c"</span><span class="op">)</span>,</span>
+<span>    n_colnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"n_e"</span>, <span class="st">"n_c"</span><span class="op">)</span>,</span>
+<span>    by_var <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"byvar1"</span>, <span class="st">"byvar2"</span><span class="op">)</span>,</span>
+<span>    stud_lab <span class="op">=</span> <span class="st">"study_id"</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>   <span class="fu"><a href="../reference/table_mod_summary.html">table_mod_summary</a></span><span class="op">(</span></span>
+<span>    main_or_sbgp <span class="op">=</span> <span class="st">"sbgp"</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="co">#&gt;        analysis  bylab mod_name bylevs event.e n.e event.c n.c n stud/I2</span></span>
+<span><span class="co">#&gt; a...1 subgroups byvar1   byvar1      a       3  20       1  21     1/NA%</span></span>
+<span><span class="co">#&gt; b     subgroups byvar1   byvar1      b       5  27       2  28     1/NA%</span></span>
+<span><span class="co">#&gt; a...3 subgroups byvar2   byvar2      a       8  47       3  49      2/0%</span></span>
+<span><span class="co">#&gt;              sm (95%CI) method_sm_effects   p TE.random lower.random</span></span>
+<span><span class="co">#&gt; a...1 3.15 (0.36-27.83)      MH RR common .89  3.150000    0.3565267</span></span>
+<span><span class="co">#&gt; b     2.59 (0.55-12.24)      MH RR common .89  2.592593    0.5490234</span></span>
+<span><span class="co">#&gt; a...3  2.78 (0.78-9.83)      MH RR common  NA  2.777610    0.7849783</span></span>
+<span><span class="co">#&gt;       upper.random pval.Q.b.common k.w I2.w</span></span>
+<span><span class="co">#&gt; a...1    27.831016       0.8865432   1   NA</span></span>
+<span><span class="co">#&gt; b        12.242713       0.8865432   1   NA</span></span>
+<span><span class="co">#&gt; a...3     9.828448              NA   2    0</span></span></code></pre></div>
+</div>
   </main>
 </div>
 
