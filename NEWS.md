@@ -1,3 +1,9 @@
+# safetymeta 0.3.0
+
+## New features
+
+Experimental add of `metabin_wrap()`, for subgroup analysis.
+
 # safetymeta 0.2.1
 
 ## Patch
