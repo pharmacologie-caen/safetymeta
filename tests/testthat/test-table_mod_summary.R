@@ -24,6 +24,27 @@ test_that("you can extract main and subgroup results from metarate", {
       prop_scaler = 100
     )
 
+  res_true <-
+    data.frame(
+      `analysis` = "main outcome",
+      `mod_name` = "mod",
+      `event` = 10,
+      `time` = 100,
+      `n` = 0L,
+      `n_stud_i2` = "4/64%",
+      `sm_95` = "12.10 (4.05-36.18)",
+      `per` = "100 pts",
+      `method_sm_effects` = "Inverse IRLN random",
+      `TE` = 0.121024058783155,
+      `lower` = 0.0404776874724543,
+      `upper` = 0.361849298192145,
+      `k` = 4L,
+      `I2` = 0.640621406121013,
+      `Q` = 8.34774260653429,
+      `pval.Q` = 0.039345892002307
+    ) |>
+    dplyr::rename(c("Rate (95%CI)" = "sm_95", "n stud/I2" = "n_stud_i2"))
+
   res_unique <-
     table_mod_summary(
       m1,
@@ -55,6 +76,8 @@ test_that("you can extract main and subgroup results from metarate", {
       common_or_random = "common",
       prop_scaler = 100
     )
+
+  expect_equal(res_list, res_true)
 
   expect_equal(res_list,
                res_unique)

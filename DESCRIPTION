@@ -13,7 +13,7 @@ Description: Guidance through data management steps of safety events, obtained f
 License: CC BY 4.0
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 URL: https://pharmacologie-caen.github.io/safetymeta/
 Imports: 
     dplyr,

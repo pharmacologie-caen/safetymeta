@@ -1,3 +1,8 @@
+
+## Minor
+
+Adding new values to `table_mod_summary()` output, related to heterogeneity testing.
+
 # safetymeta 0.3.1
 
 ## Patch

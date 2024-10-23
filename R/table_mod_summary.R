@@ -10,6 +10,24 @@
 #' @param prop_scaler Only used when working with metaproportion or metarates, will express the result as x events per `prop_scaler` patients
 #'
 #' @keywords meta-analysis data-extraction
+#'
+#' @returns A data.frame with the following columns:
+#' \itemize{
+#'  \item `analysis` The type of analysis (main outcome or subgroups)
+#'  \item `mod_name` The name of the model
+#'  \item `event`, `event.e`, `event.c`, `n`, `n.e`, `n.c`, `k`, `I2`, `Q`,
+#'  `pval.Q`, `Q.b`, `pval.Q.b`:
+#'  See `?meta::meta-object`. For metaprop, Q, and pval.Q are from Wald test.
+#'  \item `n_stud_i2` Formating of I2 and k.
+#'  \item `sm (95%CI)` The summary effect and its 95% confidence interval ('sm' parameter)
+#'  \item `method_sm_effects` The method, summary measure and effect type
+#'  \item `p` The summary effect p-value
+#'  \item `TE`, `lower`, `upper`, either .common or .random as in `?meta::meta-object`
+#'  for main outcomes, and the same with .w for subgroups.
+#'  \item `bylab` The subgroup label
+#'  \item `bylevs` The subgroup levels
+#'  }
+#'
 #' @export
 #' @examples
 #' library(meta)
@@ -113,6 +131,7 @@ table_mod_summary <- function(
   lower.sym.w  <- rlang::sym(paste0("lower.",    common_or_random, ".w"))
   upper.sym.w  <- rlang::sym(paste0("upper.",    common_or_random, ".w"))
   pval.Q.b.sym <- rlang::sym(paste0("pval.Q.b.", common_or_random))
+  Q.b.sym      <- rlang::sym(paste0("Q.b.",      common_or_random))
 
 
   # extractors ---- ####
@@ -142,7 +161,9 @@ table_mod_summary <- function(
              upper        = exp(!!upper.sym),
              !!pval.sym,
              k,
-             I2
+             I2,
+             Q,
+             pval.Q
            )
          ))) |>
       dplyr::rename(
@@ -196,6 +217,7 @@ table_mod_summary <- function(
                    lower = exp(!!lower.sym.w),
                    upper = exp(!!upper.sym.w),
                    !!pval.Q.b.sym,
+                   !!Q.b.sym,
                    k.w,
                    I2.w
                  )
@@ -237,7 +259,9 @@ table_mod_summary <- function(
                              lower = plogis(!!lower.sym),
                              upper = plogis(!!upper.sym),
                              k,
-                             I2
+                             I2,
+                             Q["Wald"],
+                             pval.Q[1]
                            )
                          ))) |>
           dplyr::rename(c("Proportion (95%CI)" = "prop_ci",
@@ -270,6 +294,7 @@ table_mod_summary <- function(
                                lower = plogis(!!lower.sym.w),
                                upper = plogis(!!upper.sym.w),
                                !!pval.Q.b.sym,
+                               !!Q.b.sym,
                                k.w,
                                I2.w
                              )
@@ -314,7 +339,9 @@ table_mod_summary <- function(
                                lower = exp(!!lower.sym),
                                upper = exp(!!upper.sym),
                                k,
-                               I2
+                               I2,
+                               Q,
+                               pval.Q
                              )
                            ))) |>
             dplyr::rename(c("Rate (95%CI)" = "rate_ci",
@@ -358,6 +385,7 @@ table_mod_summary <- function(
                                  lower = exp(!!lower.sym.w),
                                  upper = exp(!!upper.sym.w),
                                  !!pval.Q.b.sym,
+                                 !!Q.b.sym,
                                  k.w,
                                  I2.w
                                )

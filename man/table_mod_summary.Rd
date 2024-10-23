@@ -20,6 +20,24 @@ table_mod_summary(
 
 \item{prop_scaler}{Only used when working with metaproportion or metarates, will express the result as x events per \code{prop_scaler} patients}
 }
+\value{
+A data.frame with the following columns:
+\itemize{
+\item \code{analysis} The type of analysis (main outcome or subgroups)
+\item \code{mod_name} The name of the model
+\item \code{event}, \code{event.e}, \code{event.c}, \code{n}, \code{n.e}, \code{n.c}, \code{k}, \code{I2}, \code{Q},
+\code{pval.Q}, \code{Q.b}, \code{pval.Q.b}:
+See \code{?meta::meta-object}. For metaprop, Q, and pval.Q are from Wald test.
+\item \code{n_stud_i2} Formating of I2 and k.
+\item \verb{sm (95\%CI)} The summary effect and its 95\% confidence interval ('sm' parameter)
+\item \code{method_sm_effects} The method, summary measure and effect type
+\item \code{p} The summary effect p-value
+\item \code{TE}, \code{lower}, \code{upper}, either .common or .random as in \code{?meta::meta-object}
+for main outcomes, and the same with .w for subgroups.
+\item \code{bylab} The subgroup label
+\item \code{bylevs} The subgroup levels
+}
+}
 \description{
 Shorthand to get results from one or more meta models as a data.frame
 }
