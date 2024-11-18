@@ -432,6 +432,8 @@ table_mod_summary <- function(
     )
   }
 
+  row.names(res) <- NULL
+
   res
 
 }
