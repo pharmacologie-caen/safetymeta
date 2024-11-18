@@ -18,6 +18,7 @@
 #'  \item `event`, `event.e`, `event.c`, `n`, `n.e`, `n.c`, `k`, `I2`, `Q`,
 #'  `pval.Q`, `Q.b`, `pval.Q.b`:
 #'  See `?meta::meta-object`. For metaprop, Q, and pval.Q are from Wald test.
+#'  For metarate models, Q and pval.Q are from Wald test.
 #'  \item `n_stud_i2` Formating of I2 and k.
 #'  \item `sm (95%CI)` The summary effect and its 95% confidence interval ('sm' parameter)
 #'  \item `method_sm_effects` The method, summary measure and effect type
@@ -36,13 +37,13 @@
 #'     data.frame(
 #'       event = 4:1,
 #'       n = c(5, 7, 8, 9),
-#'       byvar = c("a", "a", "b", "b")
+#'       subgroup = c("a", "a", "b", "b")
 #'     )
 #'
 #'  m1 <- metaprop(
 #'     event = event,
 #'     n = n,
-#'     byvar = byvar,
+#'     subgroup = subgroup,
 #'     data = data
 #'   )
 #'
@@ -333,15 +334,15 @@ table_mod_summary <- function(
                                    dig = 2,
                                    method = "num_ci"
                                  ),
-                               per = paste0(prop_scaler, " pts"),
+                               per = paste0(prop_scaler, " person.time"),
                                method_sm_effects = paste0(method, " ", sm, " ", common_or_random),
                                TE    = exp(!!TE.sym),
                                lower = exp(!!lower.sym),
                                upper = exp(!!upper.sym),
                                k,
                                I2,
-                               Q,
-                               pval.Q
+                               Q = Q[1], # first is Wald test in GLMM
+                               pval.Q = pval.Q[1]
                              )
                            ))) |>
             dplyr::rename(c("Rate (95%CI)" = "rate_ci",
@@ -377,7 +378,7 @@ table_mod_summary <- function(
                                      dig = 2,
                                      method = "num_ci"
                                    ),
-                                 per = paste0(prop_scaler, " pts"),
+                                 per = paste0(prop_scaler, " person.time"),
 
                                  method_sm_effects = paste0(method, " ", sm, " ", common_or_random),
                                  `p`   = nice_p(!!pval.Q.b.sym),
@@ -430,6 +431,8 @@ table_mod_summary <- function(
     "Did you intend to collect subgroups results, with main_or_sbgp = 'sbgp'?")
     )
   }
+
+  row.names(res) <- NULL
 
   res
 

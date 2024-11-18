@@ -6,13 +6,13 @@
 #' in meta::metabin, and `n_colnames` is similar to `n.e` and `n.c`, but they use
 #' character strings as inputs. The `*_colnames` args also cover more usecase to
 #' prevent metabin failure, in particular when there are missing data.
-#' `by_var` is different from `byvar` in metabin (by_var is a character string).
+#' `sub_group` is different from `subgroup` in metabin (sub_group is a character string).
 #' The same is true for `stud_lab`.
 #'
 #' @param data Data.frame containing study information
 #' @param event_colnames List of paired experimental - control column names with event counts
 #' @param n_colnames n counts, see Details.
-#' @param by_var Character vector, subgroup variables
+#' @param sub_group Character vector, subgroup variables
 #' @param stud_lab Character string, id col for each study
 #' @param ... Additional arguments to be passed to metabin (method, sm...).
 #'
@@ -27,7 +27,7 @@
 #'   metabin_wrap(
 #'     event_colnames = c("event_e", "event_c"),
 #'     n_colnames = c("n_e", "n_c"),
-#'     by_var = c("byvar1", "byvar2"),
+#'     sub_group = c("byvar1", "byvar2"),
 #'     stud_lab = "study_id"
 #'   )
 
@@ -35,7 +35,7 @@ metabin_wrap <- function(
     data,
     event_colnames,
     n_colnames = paste0("n_", event_colnames),
-    by_var,
+    sub_group,
     stud_lab,
     ... ) {
 
@@ -67,7 +67,7 @@ metabin_wrap <- function(
     function(bv) {
 
       byvar_var <- rlang::syms(bv)|>
-        rlang::set_names("byvar")
+        rlang::set_names("subgroup")
 
       mod_expr <-
         rlang::expr(
@@ -109,7 +109,7 @@ metabin_wrap <- function(
       mod
     }
 
-  by_var |>
+  sub_group |>
     rlang::set_names() |>
     purrr::map(
       core_metabin_sm

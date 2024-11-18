@@ -8,7 +8,7 @@ metabin_wrap(
   data,
   event_colnames,
   n_colnames = paste0("n_", event_colnames),
-  by_var,
+  sub_group,
   stud_lab,
   ...
 )
@@ -20,7 +20,7 @@ metabin_wrap(
 
 \item{n_colnames}{n counts, see Details.}
 
-\item{by_var}{Character vector, subgroup variables}
+\item{sub_group}{Character vector, subgroup variables}
 
 \item{stud_lab}{Character string, id col for each study}
 
@@ -36,7 +36,7 @@ and allows for multiple subgroup analyses.
 in meta::metabin, and \code{n_colnames} is similar to \code{n.e} and \code{n.c}, but they use
 character strings as inputs. The \verb{*_colnames} args also cover more usecase to
 prevent metabin failure, in particular when there are missing data.
-\code{by_var} is different from \code{byvar} in metabin (by_var is a character string).
+\code{sub_group} is different from \code{subgroup} in metabin (sub_group is a character string).
 The same is true for \code{stud_lab}.
 }
 \examples{
@@ -47,7 +47,7 @@ tnsc_data |>
   metabin_wrap(
     event_colnames = c("event_e", "event_c"),
     n_colnames = c("n_e", "n_c"),
-    by_var = c("byvar1", "byvar2"),
+    sub_group = c("byvar1", "byvar2"),
     stud_lab = "study_id"
   )
 }

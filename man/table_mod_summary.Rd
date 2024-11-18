@@ -28,6 +28,7 @@ A data.frame with the following columns:
 \item \code{event}, \code{event.e}, \code{event.c}, \code{n}, \code{n.e}, \code{n.c}, \code{k}, \code{I2}, \code{Q},
 \code{pval.Q}, \code{Q.b}, \code{pval.Q.b}:
 See \code{?meta::meta-object}. For metaprop, Q, and pval.Q are from Wald test.
+For metarate models, Q and pval.Q are from Wald test.
 \item \code{n_stud_i2} Formating of I2 and k.
 \item \verb{sm (95\%CI)} The summary effect and its 95\% confidence interval ('sm' parameter)
 \item \code{method_sm_effects} The method, summary measure and effect type
@@ -51,13 +52,13 @@ data <-
     data.frame(
       event = 4:1,
       n = c(5, 7, 8, 9),
-      byvar = c("a", "a", "b", "b")
+      subgroup = c("a", "a", "b", "b")
     )
 
  m1 <- metaprop(
     event = event,
     n = n,
-    byvar = byvar,
+    subgroup = subgroup,
     data = data
   )
 

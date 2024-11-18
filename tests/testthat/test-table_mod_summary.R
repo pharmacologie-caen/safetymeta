@@ -5,14 +5,14 @@ test_that("you can extract main and subgroup results from metarate", {
       event = 4:1,
       time = c(10, 20, 30, 40),
       n = c(5, 7, 8, 9),
-      byvar = c("a", "a", "b", "b")
+      subgroup = c("a", "a", "b", "b")
     )
 
   m1 <- meta::metarate(
     event = event,
     time = time,
     # n = n,
-    byvar = byvar,
+    subgroup = subgroup,
     data = data
   )
 
@@ -33,7 +33,7 @@ test_that("you can extract main and subgroup results from metarate", {
       `n` = 0L,
       `n_stud_i2` = "4/64%",
       `sm_95` = "12.10 (4.05-36.18)",
-      `per` = "100 pts",
+      `per` = "100 person.time",
       `method_sm_effects` = "Inverse IRLN random",
       `TE` = 0.121024058783155,
       `lower` = 0.0404776874724543,
@@ -135,7 +135,7 @@ test_that("you can extract main and subgroup results from metabin", {
 
       n.e = c(5, 7, 8, 9),
       n.c = c(9, 10, 11, 12),
-      byvar = c("a", "a", "b", "b")
+      subgroup = c("a", "a", "b", "b")
     )
 
   m1 <- meta::metabin(
@@ -143,7 +143,7 @@ test_that("you can extract main and subgroup results from metabin", {
     event.c = event.c,
     n.e = n.e,
     n.c = n.c,
-    byvar = byvar,
+    subgroup = subgroup,
     data = data
   )
 
@@ -210,13 +210,13 @@ test_that("you can extract main and subgroup results from metaprop", {
     data.frame(
       event = 4:1,
       n = c(5, 7, 8, 9),
-      byvar = c("a", "a", "b", "b")
+      subgroup = c("a", "a", "b", "b")
     )
 
   m1 <- meta::metaprop(
     event = event,
     n = n,
-    byvar = byvar,
+    subgroup = subgroup,
     data = data
   )
 
@@ -283,13 +283,13 @@ test_that("A NULL element in the model list doesnt crash the function", {
     data.frame(
       event = 4:1,
       n = c(5, 7, 8, 9),
-      byvar = c("a", "a", "b", "b")
+      subgroup = c("a", "a", "b", "b")
     )
 
   m1 <- meta::metaprop(
     event = event,
     n = n,
-    byvar = byvar,
+    subgroup = subgroup,
     data = data
   )
 
@@ -327,13 +327,13 @@ test_that("a list in list of models doesn't work", {
     data.frame(
       event = 4:1,
       n = c(5, 7, 8, 9),
-      byvar = c("a", "a", "b", "b")
+      subgroup = c("a", "a", "b", "b")
     )
 
   m1 <- meta::metaprop(
     event = event,
     n = n,
-    byvar = byvar,
+    subgroup = subgroup,
     data = data
   )
 
@@ -362,7 +362,7 @@ test_that("you cannot mix metaprop and metabin models in the same list", {
 
       n.e = c(5, 7, 8, 9),
       n.c = c(9, 10, 11, 12),
-      byvar = c("a", "a", "b", "b")
+      subgroup = c("a", "a", "b", "b")
     )
 
   m1 <- meta::metabin(
@@ -370,14 +370,14 @@ test_that("you cannot mix metaprop and metabin models in the same list", {
     event.c = event.c,
     n.e = n.e,
     n.c = n.c,
-    byvar = byvar,
+    subgroup = subgroup,
     data = data
   )
 
   m2 <- meta::metaprop(
     event = event.e,
     n = n.e,
-    byvar = byvar,
+    subgroup = subgroup,
     data = data
   )
 
@@ -424,8 +424,8 @@ test_that("models with different subgroups and main_or_sbgp is main is warning",
 
       n.e = c(5, 7, 8, 9),
       n.c = c(9, 10, 11, 12),
-      byvar = c("a", "a", "b", "b"),
-      byvar2 = c("a", "b", "b", "b")
+      subgroup = c("a", "a", "b", "b"),
+      subgroup2 = c("a", "b", "b", "b")
     )
 
   m1 <- meta::metabin(
@@ -433,7 +433,7 @@ test_that("models with different subgroups and main_or_sbgp is main is warning",
     event.c = event.c,
     n.e = n.e,
     n.c = n.c,
-    byvar = byvar,
+    subgroup = subgroup,
     data = data
   )
 
@@ -442,7 +442,7 @@ test_that("models with different subgroups and main_or_sbgp is main is warning",
     event.c = event.c,
     n.e = n.e,
     n.c = n.c,
-    byvar = byvar2,
+    subgroup = subgroup2,
     data = data
   )
 
@@ -466,7 +466,7 @@ test_that("you can extract common or random summaries", {
     metabin_wrap(
       event_colnames = c("event_e", "event_c"),
       n_colnames = c("n_e", "n_c"),
-      by_var = c("byvar1"),
+      sub_group = c("byvar1"),
       stud_lab = "study_id"
     )
 
@@ -475,7 +475,7 @@ test_that("you can extract common or random summaries", {
       event = event_e,
       time = n_e,
       data = tnsc_data,
-      byvar = byvar1
+      subgroup = byvar1
     )
 
   m_prop <-
@@ -483,7 +483,7 @@ test_that("you can extract common or random summaries", {
       event = event_e,
       n = n_e,
       data= tnsc_data,
-      byvar = byvar1
+      subgroup = byvar1
     )
 
   # names
@@ -520,4 +520,53 @@ test_that("you can extract common or random summaries", {
     res_common$`sm (95%CI)` ==
       res_random$`sm (95%CI)`
   )
+})
+
+test_that("with metarate, return wald test line with method GLMM", {
+  data <-
+    data.frame(
+      event = 4:1,
+      time = c(10, 20, 30, 40),
+      n = c(5, 7, 8, 9),
+      subgroup = c("a", "a", "b", "b")
+    )
+
+  m1 <- meta::metarate(
+    event = event,
+    time = time,
+    subgroup = subgroup,
+    data = data,
+    method = "GLMM"
+  )
+
+  res_list <-
+    table_mod_summary(
+      mod_list = list(mod = m1),
+      main_or_sbgp = "main",
+      common_or_random = "random",
+      prop_scaler = 100
+    )
+
+  res_true <-
+    data.frame(
+      `analysis` = "main outcome",
+      `mod_name` = "mod",
+      `event` = 10,
+      `time` = 100,
+      `n` = 0L,
+      `n_stud_i2` = "4/64%",
+      `sm_95` = "10.03 (3.74-26.93)",
+      `per` = "100 person.time",
+      `method_sm_effects` = "GLMM IRLN random",
+      `TE` = 0.100335303,
+      `lower` = 0.037384984,
+      `upper` = 0.269283869,
+      `k` = 4L,
+      `I2` = 0.640622871,
+      `Q` = 8.34777662,
+      `pval.Q` = 0.039345288
+    ) |>
+    dplyr::rename(c("Rate (95%CI)" = "sm_95", "n stud/I2" = "n_stud_i2"))
+
+  expect_equal(res_list, res_true)
 })
