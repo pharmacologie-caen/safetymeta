@@ -1,11 +1,11 @@
 pandoc: 3.1.11
-pkgdown: 2.1.0
+pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
   basic_workflow: basic_workflow.html
   collect_data: collect_data.html
   subgroups: subgroups.html
-last_built: 2024-08-09T14:54Z
+last_built: 2024-11-18T09:55Z
 urls:
   reference: https://pharmacologie-caen.github.io/safetymeta/reference
   article: https://pharmacologie-caen.github.io/safetymeta/articles
