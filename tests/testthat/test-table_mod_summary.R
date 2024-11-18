@@ -33,7 +33,7 @@ test_that("you can extract main and subgroup results from metarate", {
       `n` = 0L,
       `n_stud_i2` = "4/64%",
       `sm_95` = "12.10 (4.05-36.18)",
-      `per` = "100 pts",
+      `per` = "100 person.time",
       `method_sm_effects` = "Inverse IRLN random",
       `TE` = 0.121024058783155,
       `lower` = 0.0404776874724543,

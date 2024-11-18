@@ -333,7 +333,7 @@ table_mod_summary <- function(
                                    dig = 2,
                                    method = "num_ci"
                                  ),
-                               per = paste0(prop_scaler, " pts"),
+                               per = paste0(prop_scaler, " person.time"),
                                method_sm_effects = paste0(method, " ", sm, " ", common_or_random),
                                TE    = exp(!!TE.sym),
                                lower = exp(!!lower.sym),
@@ -377,7 +377,7 @@ table_mod_summary <- function(
                                      dig = 2,
                                      method = "num_ci"
                                    ),
-                                 per = paste0(prop_scaler, " pts"),
+                                 per = paste0(prop_scaler, " person.time"),
 
                                  method_sm_effects = paste0(method, " ", sm, " ", common_or_random),
                                  `p`   = nice_p(!!pval.Q.b.sym),
