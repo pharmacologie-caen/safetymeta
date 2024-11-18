@@ -51,13 +51,13 @@ data <-
     data.frame(
       event = 4:1,
       n = c(5, 7, 8, 9),
-      byvar = c("a", "a", "b", "b")
+      subgroup = c("a", "a", "b", "b")
     )
 
  m1 <- metaprop(
     event = event,
     n = n,
-    byvar = byvar,
+    subgroup = subgroup,
     data = data
   )
 

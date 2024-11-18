@@ -31,7 +31,7 @@ tnsc_data |>
   metabin_wrap(
     event_colnames = c("event_e", "event_c"),
     n_colnames = c("n_e", "n_c"),
-    by_var = c("byvar1", "byvar2"),
+    sub_group = c("byvar1", "byvar2"),
     stud_lab = "study_id"
   )
 ```

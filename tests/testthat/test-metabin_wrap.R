@@ -7,7 +7,7 @@ test_that("basic use",{
    metabin_wrap(
      event_colnames = c("event_e", "event_c"),
      n_colnames = c("n_e", "n_c"),
-     by_var = c("byvar1"),
+     sub_group = c("byvar1"),
      stud_lab = "study_id"
    )
 
@@ -18,7 +18,7 @@ test_that("basic use",{
      event.c = event_c,
      n.c     = n_c,
      studlab = study_id,
-     byvar   = byvar1,
+     subgroup   = byvar1,
      data    = tnsc_data |>
        dplyr::filter(term_name == "myocardial_infarction")
    )
@@ -39,7 +39,7 @@ test_that("basic use",{
    metabin_wrap(
      event_colnames = c("event_e", "event_c"),
      n_colnames = c("n_e", "n_c"),
-     by_var = c("byvar1", "byvar2"),
+     sub_group = c("byvar1", "byvar2"),
      stud_lab = "study_id"
    )
 
@@ -50,7 +50,7 @@ test_that("basic use",{
      event.c = event_c,
      n.c     = n_c,
      studlab = study_id,
-     byvar   = byvar2,
+     subgroup   = byvar2,
      data    = tnsc_data |>
        dplyr::filter(term_name == "myocardial_infarction")
    )
@@ -79,7 +79,7 @@ test_that("no study warning", {
         metabin_wrap(
           event_colnames = c("event_e", "event_c"),
           n_colnames = c("n_e", "n_c"),
-          by_var = c("byvar1"),
+          sub_group = c("byvar1"),
           stud_lab = "study_id"
           ),
       "there was no study to compare event_e to event_c for this outcome"
@@ -95,7 +95,7 @@ test_that("pass additional args to meta::metabin", {
     metabin_wrap(
       event_colnames = c("event_e", "event_c"),
       n_colnames = c("n_e", "n_c"),
-      by_var = c("byvar1"),
+      sub_group = c("byvar1"),
       stud_lab = "study_id",
       method = "Peto",
       sm = "OR"
@@ -108,7 +108,7 @@ test_that("pass additional args to meta::metabin", {
       event.c = event_c,
       n.c     = n_c,
       studlab = study_id,
-      byvar   = byvar1,
+      subgroup   = byvar1,
       data    = tnsc_data |>
         dplyr::filter(term_name == "myocardial_infarction"),
       method  = "Peto",
@@ -133,7 +133,7 @@ test_that("works with missing data in byvar", {
     metabin_wrap(
       event_colnames = c("event_e", "event_c"),
       n_colnames = c("n_e", "n_c"),
-      by_var = c("byvar1"),
+      sub_group = c("byvar1"),
       stud_lab = "study_id"
     )
 
@@ -144,7 +144,7 @@ test_that("works with missing data in byvar", {
       event.c = event_c,
       n.c     = n_c,
       studlab = study_id,
-      byvar   = byvar1,
+      subgroup   = byvar1,
       data    = tnsc_data |>
         dplyr::filter(.data$term_name == "myocardial_infarction" &
                         !is.na(.data$byvar1))
