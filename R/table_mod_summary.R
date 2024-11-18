@@ -18,6 +18,7 @@
 #'  \item `event`, `event.e`, `event.c`, `n`, `n.e`, `n.c`, `k`, `I2`, `Q`,
 #'  `pval.Q`, `Q.b`, `pval.Q.b`:
 #'  See `?meta::meta-object`. For metaprop, Q, and pval.Q are from Wald test.
+#'  For metarate models, Q and pval.Q are from Wald test.
 #'  \item `n_stud_i2` Formating of I2 and k.
 #'  \item `sm (95%CI)` The summary effect and its 95% confidence interval ('sm' parameter)
 #'  \item `method_sm_effects` The method, summary measure and effect type
@@ -340,8 +341,8 @@ table_mod_summary <- function(
                                upper = exp(!!upper.sym),
                                k,
                                I2,
-                               Q,
-                               pval.Q
+                               Q = Q[1], # first is Wald test in GLMM
+                               pval.Q = pval.Q[1]
                              )
                            ))) |>
             dplyr::rename(c("Rate (95%CI)" = "rate_ci",

@@ -521,3 +521,52 @@ test_that("you can extract common or random summaries", {
       res_random$`sm (95%CI)`
   )
 })
+
+test_that("with metarate, return wald test line with method GLMM", {
+  data <-
+    data.frame(
+      event = 4:1,
+      time = c(10, 20, 30, 40),
+      n = c(5, 7, 8, 9),
+      subgroup = c("a", "a", "b", "b")
+    )
+
+  m1 <- meta::metarate(
+    event = event,
+    time = time,
+    subgroup = subgroup,
+    data = data,
+    method = "GLMM"
+  )
+
+  res_list <-
+    table_mod_summary(
+      mod_list = list(mod = m1),
+      main_or_sbgp = "main",
+      common_or_random = "random",
+      prop_scaler = 100
+    )
+
+  res_true <-
+    data.frame(
+      `analysis` = "main outcome",
+      `mod_name` = "mod",
+      `event` = 10,
+      `time` = 100,
+      `n` = 0L,
+      `n_stud_i2` = "4/64%",
+      `sm_95` = "10.03 (3.74-26.93)",
+      `per` = "100 person.time",
+      `method_sm_effects` = "GLMM IRLN random",
+      `TE` = 0.100335303,
+      `lower` = 0.037384984,
+      `upper` = 0.269283869,
+      `k` = 4L,
+      `I2` = 0.640622871,
+      `Q` = 8.34777662,
+      `pval.Q` = 0.039345288
+    ) |>
+    dplyr::rename(c("Rate (95%CI)" = "sm_95", "n stud/I2" = "n_stud_i2"))
+
+  expect_equal(res_list, res_true)
+})
