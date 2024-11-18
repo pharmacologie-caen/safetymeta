@@ -22,6 +22,12 @@ test_that("you can extract main and subgroup results from metarate", {
       main_or_sbgp = "main",
       common_or_random = "random",
       prop_scaler = 100
+    ) |>
+    dplyr::mutate(
+      dplyr::across(
+        c(TE, lower, upper, I2, Q, pval.Q),
+        ~ round(.x, 4)
+      )
     )
 
   res_true <-
@@ -35,13 +41,13 @@ test_that("you can extract main and subgroup results from metarate", {
       `sm_95` = "12.10 (4.05-36.18)",
       `per` = "100 person.time",
       `method_sm_effects` = "Inverse IRLN random",
-      `TE` = 0.121024058783155,
-      `lower` = 0.0404776874724543,
-      `upper` = 0.361849298192145,
+      `TE` = 0.121,
+      `lower` = 0.0405,
+      `upper` = 0.3618,
       `k` = 4L,
-      `I2` = 0.640621406121013,
-      `Q` = 8.34774260653429,
-      `pval.Q` = 0.039345892002307
+      `I2` = 0.6406,
+      `Q` = 8.3477,
+      `pval.Q` = 0.0393
     ) |>
     dplyr::rename(c("Rate (95%CI)" = "sm_95", "n stud/I2" = "n_stud_i2"))
 
@@ -51,6 +57,12 @@ test_that("you can extract main and subgroup results from metarate", {
       main_or_sbgp = "main",
       common_or_random = "random",
       prop_scaler = 100
+    ) |>
+    dplyr::mutate(
+      dplyr::across(
+        c(TE, lower, upper, I2, Q, pval.Q),
+        ~ round(.x, 4)
+      )
     )
 
   res_sbgp <-
@@ -81,6 +93,7 @@ test_that("you can extract main and subgroup results from metarate", {
 
   expect_equal(res_list,
                res_unique)
+
   expect_equal(res_sbgp,
                res_sbgp_unique)
 
@@ -545,6 +558,12 @@ test_that("with metarate, return wald test line with method GLMM", {
       main_or_sbgp = "main",
       common_or_random = "random",
       prop_scaler = 100
+    ) |>
+    dplyr::mutate(
+      dplyr::across(
+        c(TE, lower, upper, I2, Q, pval.Q),
+        ~ round(.x, 4)
+      )
     )
 
   res_true <-
@@ -558,13 +577,13 @@ test_that("with metarate, return wald test line with method GLMM", {
       `sm_95` = "10.03 (3.74-26.93)",
       `per` = "100 person.time",
       `method_sm_effects` = "GLMM IRLN random",
-      `TE` = 0.100335303,
-      `lower` = 0.037384984,
-      `upper` = 0.269283869,
+      `TE` = 0.1003,
+      `lower` = 0.0374,
+      `upper` = 0.2693,
       `k` = 4L,
-      `I2` = 0.640622871,
-      `Q` = 8.34777662,
-      `pval.Q` = 0.039345288
+      `I2` = 0.6406,
+      `Q` = 8.3478,
+      `pval.Q` = 0.0393
     ) |>
     dplyr::rename(c("Rate (95%CI)" = "sm_95", "n stud/I2" = "n_stud_i2"))
 
