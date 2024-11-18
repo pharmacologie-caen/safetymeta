@@ -1,3 +1,12 @@
+# safetymeta 0.3.2
+
+## Patch
+
+#1 and #4, removing row.names from `table_mod_summary()` output, and
+picking Wald test result from metarate with method GLMM.
+Also, metarate now returns rates per "person.time", instead of "per patients".
+
+Updating syntax to "subgroup" instead of "byvar" argument, from meta.
 
 ## Minor
 
